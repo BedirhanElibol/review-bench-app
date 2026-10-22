@@ -16,3 +16,25 @@ requests with its default settings.
 
 Results are published as they come out, including where a tool, Zelsis included, misses a flaw or comments on
 something unrelated.
+
+## Results (2026-10-21)
+
+| PR | Zelsis | CodeRabbit | Other comments (Zelsis / CodeRabbit) |
+| --- | --- | --- | --- |
+| 1 | Found the missing RLS. Did not call out the missing membership check on its own. | Named both problems in the summary as "High, inferred", but left no line comment for either. | 1 / 3 |
+| 2 | Found it | Found it | 0 / 1 |
+| 3 | Found it | Found it (CWE-347) | 0 / 2 |
+| 4 | Found all three | Found all three | 0 / 1 |
+| 5 | Found it, as a warning that does not block the PR | Found it | 0 / 2 |
+
+"Other comments" counts every comment that is not about the planted flaw. Most of CodeRabbit's are fair code
+quality points, such as an unchecked Supabase `error`, and should not be read as false alarms. Zelsis's one extra
+comment on PR 1 says the server action has no schema validation, which is true of the code.
+
+Some of CodeRabbit's security comments carry a "Detected with Advanced Tier" label, so a different CodeRabbit plan
+may give different results. Zelsis fails the CI check on PRs 1 to 4, which blocks the merge when the check is
+required; CodeRabbit leaves comments and does not block. GitHub Copilot code review was not run because it needs a
+paid subscription.
+
+While running this test we found a bug in Zelsis: GitHub Actions tokens are now longer than 256 characters, and the
+gate API rejected them. The results above are from the run after that fix.
